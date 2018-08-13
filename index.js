@@ -14,8 +14,8 @@ $(function () {
         url: 'html1.html'
     }];
 
-    mf.initTabs(menus);
-    mf.addTab('frontTab', '首页', '', $('#frontPage'));
+    mf.bTabs.initTabs(menus);
+    mf.bTabs.addTab('frontTab', '首页', '', $('#frontPage'));
 });
 
 
