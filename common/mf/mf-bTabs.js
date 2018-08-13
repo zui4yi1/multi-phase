@@ -3,10 +3,10 @@ var mf = mf || {};
 
 /**
  * mf-bTabs对原插件bTabs做了以下扩展:
- * a. 简化参数
- * b. 支持动态添加菜单
+ * a. 简化参数, 并提供初始化菜单和tabs页的总入口initTabs()
+ * b. 支持动态添加菜单(不暴露)
  * c. 支持添加一个指定doms的tabs，而非必须url
- * d. 支持无url的菜单项，不可点击并置灰
+ * d. 支持添加无url的菜单项，不可点击并置灰
  */
 mf.bTabs = (function () {
 
