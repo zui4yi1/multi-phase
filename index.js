@@ -1,17 +1,24 @@
 $(function () {
 
+    var pageHeaderPath = 'pages/';
     var menus = [{
         title: 'mf菜单',
         isMenuHeader: true
     }, {
-        title: '页面1',
-        url: 'html1.html'
+        title: 'ajax',
+        url: pageHeaderPath + 'ajax/ajax.html'
     }, {
-        title: '灰菜单',
+        title: 'jqGrid',
         //   url: 'html1.html'
     }, {
-        title: '页面3',
-        url: 'html1.html'
+        title: 'dialog',
+       // url: 'html1.html'
+    }, {
+        title: 'msgbox',
+       // url: 'html1.html'
+    }, {
+        title: 'i18n',
+        url: pageHeaderPath + 'i18n/i18n.html'
     }];
 
     mf.bTabs.initTabs(menus);
