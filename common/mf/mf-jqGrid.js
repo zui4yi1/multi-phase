@@ -11,6 +11,15 @@ var mf = mf || {};
  */
 mf.jqGrid = (function () {
 
+    var initGrid = function () {
+
+    };
+
+    var loadData = function (){
+
+    };
+
+
     // 常用的又令人头疼的
     // 需要定义一个好名字
     var base = function () {
@@ -32,6 +41,8 @@ mf.jqGrid = (function () {
 
 
     return {
+        initGrid: initGrid,
+        loadData: loadData,
         base: base,
         singleSelect: singleSelect,
         multiSelect: multiSelect,

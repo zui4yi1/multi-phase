@@ -9,7 +9,7 @@ $(function () {
         url: pageHeaderPath + 'ajax/ajax.html'
     }, {
         title: 'jqGrid',
-        //   url: 'html1.html'
+           url: pageHeaderPath + 'jqGrid/jqGrid.html'
     }, {
         title: 'dialog',
        // url: 'html1.html'
