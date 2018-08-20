@@ -11,13 +11,35 @@
     <script src="../../common/mf/mf-common.js" type="text/javascript"></script>
     <script src="../../common/mf/mf-jqGrid.js" type="text/javascript"></script>
     <script src="jqGrid.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../../lib/jqGrid/ui.jqgrid.css " type="text/css "></link>
-    <link rel="stylesheet" href="../../lib/jqGrid/jquery-ui-1.8.16.custom.css " type="text/css "></link>
+    <link rel="stylesheet" href="../../lib/jqGrid/ui.jqgrid.css " type="text/css ">
+    </link>
+    <link rel="stylesheet" href="../../lib/jqGrid/jquery-ui-1.8.16.custom.css " type="text/css ">
+    </link>
+    <style>
+        tr.ui-widget-content.jqgrow:nth-of-type(odd) td {
+            background-color: lightseagreen;
+        }
+
+        tr.ui-widget-content.jqgrow:nth-of-type(even) td {
+            background-color: lightblue;
+        }
+
+        .ui-state-highlight td {
+            background-color: #fbec88 !important;
+        }
+    </style>
 </head>
 
 <body>
-    <table id="list2"></table> 
+    <table id="list1"></table>
+    <div id="pager1"></div>
+    <button id="btn">测试</button>
+    
+    <table id="list2"></table>
     <div id="pager2"></div>
+
+    <table id="list3"></table>
+    <div id="pager3"></div>
 </body>
 
 </html>

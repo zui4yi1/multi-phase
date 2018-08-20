@@ -2,51 +2,188 @@
 var mf = mf || {};
 
 /**
- * mf-bTabs对原插件bTabs做了以下扩展:
- * a. 简化参数, 并提供初始化菜单和tabs页的总入口initTabs()
- * b. 支持动态添加菜单(不暴露)
- * c. 支持添加一个指定doms的tabs，而非必须url
- * d. 支持添加无url的菜单项，不可点击并置灰
- * 原插件地址: http://www.jq22.com/jquery-info15053
+ * mf-jqGrid对原插件jqGrid做了以下扩展:
+ * a. 简化参数，简化到最关心的两个业务参数colModels和colNames，以及补充属性options
+ * b. 对常用的应用进行多相，如单选，多选，不可勾选，无翻页，5行模式等
+ * c. 做了一个统一风格的例子：对可翻页的表若行数不够10行，则填充10行，以确保表高度不变，背景不变(如何改变原组件代码会更简单，但不建议修改原组件的代码)
  */
 mf.jqGrid = (function () {
 
-    var initGrid = function () {
+    //TODO edit模式
 
+    /**
+     * 所有基函数都定义为render.  若多相函数不满足的，可自行添加，或直接调用render但并不建议.
+     */
+    var render = function (colModels, colNames, options) {
+        options = options || {};
+        var id = options.id || 'gridTable';
+        var table = $('#' + id);
+        var pagerId = options.pagerId || 'gridPage';
+        var url = options.url || undefined;
+
+        if (typeof url == 'string') {
+            options.url = mf.util.jsonFileName(url);
+        }
+
+        var defaultOps = {
+            datatype: 'json',
+            colNames: colNames,
+            colModel: colModels,
+            height: '230px',
+            sortname: 'id',
+            sortorder: 'desc',
+            mtype: 'post',
+            viewrecords: true,
+            emptyrecords: 'no records!'
+        };
+        defaultOps.gridComplete = function () {
+            if (options.gridCompleteCallBack instanceof Function) {
+                options.gridCompleteCallBack();
+            }
+            //填充10行, 斑马色
+            if (!options.noPager) {
+                var tdLength = table.find('tr:first td').length;
+                var tr = '<tr class="ui-widget-content jqgrow fillRows">';
+                for (var i = 0; i < tdLength; i++) {
+                    tr += '<td></td>';
+                }
+                tr += '</tr>';
+                var rowNum = table.jqGrid('getGridParam', 'rowNum');
+                var records = table.jqGrid('getGridParam', 'records');   //获取当前记录数
+                console.info(rowNum + ', ' + records)
+                for (var i = 0; i < (rowNum - records); i++) {
+                    table.append(tr);
+                }
+
+            }
+        };
+        defaultOps.beforeSelectRow = function (rowId) {
+            if (!rowId) return false; // 填充行无rowId, 不能有点击事件
+            return true;
+        };
+
+        var pagerOps = {
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            pager: '#' + pagerId,
+        };
+
+        return table.jqGrid($.extend(defaultOps, pagerOps, options));
     };
 
-    var loadData = function (){
+    /**
+     * 单选
+     */
+    var singleSelect = function (colModels, colNames, options) {
+        var id = options.id || 'gridTable';
+        var table = $('#' + id);
 
+        var ops = {
+            multiselect: true,
+            multiboxonly: true,
+            gridCompleteCallBack: function () {
+                $('#cb_' + id).hide(); //隐藏全选按钮
+            },
+            onSelectRow: function (rowId) {
+                table.find('#jqg_' + rowId).prop('checked', true); //强制设置复选框选中状态
+            }
+
+        }
+        return render(colModels, colNames, $.extend(ops, options));
     };
 
+    /**
+     * 多选
+     */
+    var multiSelect = function (colModels, colNames, options) {
+        var id = options.id || 'gridTable';
+        var table = $('#' + id);
+        var ops = {
+            multiselect: true, //属性有问题，点击行取消后，就不能再选中了
 
-    // 常用的又令人头疼的
-    // 需要定义一个好名字
-    var base = function () {
-        // 扩展，10行一页，不足的用空行填充
-
+            onSelectRow: function (rowId, status) {
+                if (rowId) {
+                    table.find('#jqg_' + rowId).prop('checked', status); //强制设置复选框选中状态
+                }
+            },
+            onSelectAll: function (aRowids, status) {
+                for (var i = 0; i < aRowids.length; i++) {
+                    if (aRowids[i])
+                        table.find('#jqg_' + aRowids[i]).prop('checked', status); //强制设置复选框选中状态
+                }
+                // 去掉高亮
+                if (status) {
+                    table.find('.fillRows').removeClass('ui-state-highlight');
+                }
+            }
+        };
+        return render(colModels, colNames, $.extend(ops, options));
     };
-    var singleSelect = function () {
 
+    /**
+     * 每页5行
+     */
+    var fiveRows = function (colModels, colNames, options) {
+        var ops = {
+            rowNum: 5,
+            rowList: [5, 10],
+            height: '115px'
+        };
+        return render(colModels, colNames, $.extend(ops, options));
     };
-    var multiSelect = function () {
-
+    /**
+     * 不显示翻页
+     */
+    var noPager = function (colModels, colNames, options) {
+        var ops = {
+            noPager: true, //指定告诉render, 无翻页模式不需要填充10行            
+            pager: null,
+            height: 'auto'
+        };
+        return render(colModels, colNames, $.extend(ops, options));
     };
-    var nonSelect = function () {
 
-    };
-    var fiveRows = function (){
+    var getRowId = function (id) {
+        var isMultiselect = $('#' + id).jqGrid('getGridParam', 'multiselect');
 
+        // 若多选，再判断是否为单选
+        if (isMultiselect) {
+            isMultiselect = !$('#' + id).jqGrid('getGridParam', 'multiboxonly');
+        }
+
+        return $('#' + id).jqGrid('getGridParam', isMultiselect ? 'selarrrow' : 'selrow');
+    }
+
+    /**
+     * 获取选中行的数据
+     */
+    var getSelRowDatas = function (id) {
+        var table = $('#' + id);
+        var rowIds = getRowId(id);
+        
+        if (!rowIds) {
+            return null;
+        } else if (rowIds instanceof Array) {
+            var arr = [];
+            for (var i=0;i<rowIds.length;i++){
+                arr.push(table.jqGrid('getRowData', rowIds[i]));
+            }
+            return arr;
+        }else{
+            return table.jqGrid('getRowData', rowIds);
+        }        
     };
 
 
     return {
-        initGrid: initGrid,
-        loadData: loadData,
-        base: base,
+        render: render,
+
         singleSelect: singleSelect,
         multiSelect: multiSelect,
-        nonSelect: nonSelect,
-        fiveRows: fiveRows
+        fiveRows: fiveRows,
+        noPager: noPager,
+
+        getRowId: getRowId,
+        getSelRowDatas: getSelRowDatas
     };
 })();
