@@ -14,7 +14,7 @@ mf.jqGrid = (function () {
     /**
      * 所有基函数都定义为render.  若多相函数不满足的，可自行添加，或直接调用render但并不建议.
      */
-    var render = function (colModels, colNames, options) {
+    var render = function (options) {
         options = options || {};
         var id = options.id || 'gridTable';
         var table = $('#' + id);
@@ -27,9 +27,9 @@ mf.jqGrid = (function () {
 
         var defaultOps = {
             datatype: 'json',
-            colNames: colNames,
-            colModel: colModels,
-            height: '230px',
+            colNames: options.colNames,
+            colModel: options.colModels,
+            height: '230px', // 23 * 10
             sortname: 'id',
             sortorder: 'desc',
             mtype: 'post',
@@ -41,7 +41,7 @@ mf.jqGrid = (function () {
                 options.gridCompleteCallBack();
             }
             //填充10行, 斑马色
-            if (!options.noPager) {
+            if (!options.noFillLines) {
                 var tdLength = table.find('tr:first td').length;
                 var tr = '<tr class="ui-widget-content jqgrow fillRows">';
                 for (var i = 0; i < tdLength; i++) {
@@ -50,10 +50,11 @@ mf.jqGrid = (function () {
                 tr += '</tr>';
                 var rowNum = table.jqGrid('getGridParam', 'rowNum');
                 var records = table.jqGrid('getGridParam', 'records');   //获取当前记录数
-                console.info(rowNum + ', ' + records)
+                var html = '';
                 for (var i = 0; i < (rowNum - records); i++) {
-                    table.append(tr);
+                    html += tr;
                 }
+                table.append(html);
 
             }
         };
@@ -74,7 +75,7 @@ mf.jqGrid = (function () {
     /**
      * 单选
      */
-    var singleSelect = function (colModels, colNames, options) {
+    var singleSelect = function (options) {
         var id = options.id || 'gridTable';
         var table = $('#' + id);
 
@@ -89,22 +90,20 @@ mf.jqGrid = (function () {
             }
 
         }
-        return render(colModels, colNames, $.extend(ops, options));
+        return render($.extend(ops, options));
     };
 
     /**
      * 多选
      */
-    var multiSelect = function (colModels, colNames, options) {
+    var multiSelect = function (options) {
         var id = options.id || 'gridTable';
         var table = $('#' + id);
         var ops = {
             multiselect: true, //属性有问题，点击行取消后，就不能再选中了
 
             onSelectRow: function (rowId, status) {
-                if (rowId) {
-                    table.find('#jqg_' + rowId).prop('checked', status); //强制设置复选框选中状态
-                }
+                table.find('#jqg_' + rowId).prop('checked', status); //强制设置复选框选中状态
             },
             onSelectAll: function (aRowids, status) {
                 for (var i = 0; i < aRowids.length; i++) {
@@ -117,30 +116,30 @@ mf.jqGrid = (function () {
                 }
             }
         };
-        return render(colModels, colNames, $.extend(ops, options));
+        return render($.extend(ops, options));
     };
 
     /**
      * 每页5行
      */
-    var fiveRows = function (colModels, colNames, options) {
+    var fiveRows = function (options) {
         var ops = {
             rowNum: 5,
             rowList: [5, 10],
             height: '115px'
         };
-        return render(colModels, colNames, $.extend(ops, options));
+        return render($.extend(ops, options));
     };
     /**
      * 不显示翻页
      */
-    var noPager = function (colModels, colNames, options) {
+    var noPager = function (options) {
         var ops = {
-            noPager: true, //指定告诉render, 无翻页模式不需要填充10行            
+            noFillLines: true, //指定告诉render, 无翻页模式不需要填充10行            
             pager: null,
             height: 'auto'
         };
-        return render(colModels, colNames, $.extend(ops, options));
+        return render($.extend(ops, options));
     };
 
     var getRowId = function (id) {
@@ -160,18 +159,18 @@ mf.jqGrid = (function () {
     var getSelRowDatas = function (id) {
         var table = $('#' + id);
         var rowIds = getRowId(id);
-        
+
         if (!rowIds) {
             return null;
         } else if (rowIds instanceof Array) {
             var arr = [];
-            for (var i=0;i<rowIds.length;i++){
+            for (var i = 0; i < rowIds.length; i++) {
                 arr.push(table.jqGrid('getRowData', rowIds[i]));
             }
             return arr;
-        }else{
+        } else {
             return table.jqGrid('getRowData', rowIds);
-        }        
+        }
     };
 
 
