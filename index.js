@@ -11,11 +11,11 @@ $(function () {
         title: 'jqGrid',
            url: pageHeaderPath + 'jqGrid/jqGrid.html'
     }, {
-        title: 'dialog',
+        title: 'modal dialog',
        // url: 'html1.html'
     }, {
         title: 'msgbox',
-       // url: 'html1.html'
+        url: pageHeaderPath + 'msgbox/msgbox.html'
     }, {
         title: 'i18n',
         url: pageHeaderPath + 'i18n/i18n.html'

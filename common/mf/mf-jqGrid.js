@@ -110,7 +110,7 @@ mf.jqGrid = (function () {
                     if (aRowids[i])
                         table.find('#jqg_' + aRowids[i]).prop('checked', status); //强制设置复选框选中状态
                 }
-                // 去掉高亮
+                // 去除填充行的高亮颜色
                 if (status) {
                     table.find('.fillRows').removeClass('ui-state-highlight');
                 }

@@ -46,3 +46,5 @@ mf.ajax = function (url, data, succ) {
         }
     });
 }
+// defalut is post, if $.get is needed
+//mf.get = function(){};
