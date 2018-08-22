@@ -46,7 +46,7 @@ mf.msgbox = (function () {
         }, ops));
     };
     var fail = function (content, callback, ops) {
-        new $.Zebra_Dialog(content || '操作失败', $.extend({
+        return new $.Zebra_Dialog(content || '操作失败', $.extend({
             title: '提示',
             type: 'warning',
             overlay_opacity: 0.9,
@@ -59,7 +59,6 @@ mf.msgbox = (function () {
                 }
             ]
         }, ops));
-        return obj;
     };
     var error = function (content, callback, ops) {
         return new $.Zebra_Dialog(content, $.extend({
