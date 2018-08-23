@@ -23,7 +23,7 @@ $(function () {
         url: pageHeaderPath + 'i18n/i18n.html'
     }, {
         title: 'md5',
-    //    url: pageHeaderPath + 'md5/md5.html'
+        url: pageHeaderPath + 'md5/md5.html'
     }, {
         title: 'echart',
     //    url: pageHeaderPath + 'echart/echart.html'
