@@ -33,6 +33,8 @@ mf.dialog = (function () {
                 text: "提交",
                 icon: "ui-icon-check",
                 click: function () {
+                    if (submitCallback instanceof Function)
+                        submitCallback();
                     $(this).dialog("close");
                 }
             },
@@ -40,6 +42,8 @@ mf.dialog = (function () {
                 text: "保存",
                 icon: "ui-icon-arrowthickstop-1-s",
                 click: function () {
+                    if (saveCallback instanceof Function)
+                        saveCallback();
                     $(this).dialog("close");
                 }
             },
@@ -51,7 +55,8 @@ mf.dialog = (function () {
                 }
             }
         ];
-        if (!saveCallback) { // 无保存回调则删除该按钮
+        // 无保存回调则删除该按钮
+        if (!saveCallback) {
             btns.splice(1, 1);
         }
         var ops = {
