@@ -5,6 +5,8 @@ $(function () {
         title: 'mf菜单',
         isMenuHeader: true
     }, {
+        title: 'tabs',
+    }, {
         title: 'ajax',
         url: pageHeaderPath + 'ajax/ajax.html'
     }, {
@@ -19,6 +21,15 @@ $(function () {
     }, {
         title: 'i18n',
         url: pageHeaderPath + 'i18n/i18n.html'
+    }, {
+        title: 'md5',
+    //    url: pageHeaderPath + 'md5/md5.html'
+    }, {
+        title: 'echart',
+    //    url: pageHeaderPath + 'echart/echart.html'
+    }, {
+        title: 'date picker',
+    //    url: pageHeaderPath + 'datePicker/datePicker.html'
     }];
 
     mf.bTabs.initTabs(menus);
