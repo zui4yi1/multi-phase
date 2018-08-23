@@ -12,7 +12,7 @@ $(function () {
            url: pageHeaderPath + 'jqGrid/jqGrid.html'
     }, {
         title: 'modal dialog',
-       // url: 'html1.html'
+        url: pageHeaderPath + 'dialog/dialog.html'
     }, {
         title: 'msgbox',
         url: pageHeaderPath + 'msgbox/msgbox.html'
