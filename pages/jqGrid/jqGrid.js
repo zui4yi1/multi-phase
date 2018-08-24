@@ -6,7 +6,7 @@ $(function () {
     mf.jqGrid.multiSelect({
         url: 'jqGridData.action',
         id: 'list1',
-        pagerId: 'pager1',     
+        pagerId: 'pager1',
         colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
         colModel: [
             { name: 'id', index: 'id', width: 55 },
@@ -19,15 +19,14 @@ $(function () {
         ]
     });
 
-    $('#btn').click(function(){
+    $('#btn').click(function () {
         var data = mf.jqGrid.getSelRowDatas('list1');
-        console.info(data)
-
+        console.info(data);
     });
     mf.jqGrid.singleSelect({
         url: 'jqGridData.action',
         id: 'list2',
-        pagerId: 'pager2',     
+        pagerId: 'pager2',
         colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
         colModel: [
             { name: 'id', index: 'id', width: 55 },
@@ -42,7 +41,7 @@ $(function () {
     mf.jqGrid.noPager({
         url: 'jqGridData.action',
         id: 'list3',
-        pagerId: 'pager3',     
+        pagerId: 'pager3',
         colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
         colModel: [
             { name: 'id', index: 'id', width: 55 },

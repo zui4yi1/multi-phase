@@ -150,7 +150,16 @@ mf.jqGrid = (function () {
             isMultiselect = !$('#' + id).jqGrid('getGridParam', 'multiboxonly');
         }
 
-        return $('#' + id).jqGrid('getGridParam', isMultiselect ? 'selarrrow' : 'selrow');
+        var ids = $('#' + id).jqGrid('getGridParam', isMultiselect ? 'selarrrow' : 'selrow');
+
+        if (isMultiselect) { // 需要去除填充行
+            var len = ids.length;
+            for (var i = len - 1; i >= 0; i--) {
+                if (!ids[i])
+                    ids.splice(i, 1);
+            }
+        }
+        return ids;
     }
 
     /**
