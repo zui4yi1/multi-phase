@@ -25,6 +25,9 @@ $(function () {
         title: 'md5',
         url: pageHeaderPath + 'md5/md5.html'
     }, {
+        title: 'template',
+        url: pageHeaderPath + 'template/template.html'
+    }, {
         title: 'echart',
     //    url: pageHeaderPath + 'echart/echart.html'
     }, {
