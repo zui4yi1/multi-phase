@@ -9,10 +9,10 @@ $(function () {
 
 
     var tpl2 = new mf.template(listTemplate);
-    tpl2.replace(5,  '<span>{{item.aplyDate}}</span>');
-    tpl2.replace(8,  '<span>{{item.statusNm}}</span>');
-    tpl2.replace(12,  '<div>{{item.reason}}</div>');
-    tpl2.replace(15,  '<button v-if="item.status==\'03\'" v-on:click.stop="submitAply(item)">提交</button><button v-if="item.status==\'02\'" v-on:click.stop="cancelAply(item)">取消</button>');
+    tpl2.replace(5, '<span>{{item.aplyDate}}</span>');
+    tpl2.replace(8, '<span>{{item.statusNm}}</span>');
+    tpl2.replace(12, '<div>{{item.reason}}</div>');
+    tpl2.replace(15, '<button v-if="item.status==\'03\'" v-on:click.stop="submitAply(item)">提交</button><button v-if="item.status==\'02\'" v-on:click.stop="cancelAply(item)">取消</button>');
 
 
     new Vue({
@@ -25,7 +25,7 @@ $(function () {
         components: {
             'holiday-list': {
                 props: ['items'],
-             //   template: tpl.join('').replace(/\s+/g, ' '),
+                //   template: tpl.join('').replace(/\s+/g, ' '),
                 template: tpl2.toString(),
                 methods: {
                     submitAply: function (item) {

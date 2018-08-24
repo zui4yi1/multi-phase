@@ -36,7 +36,7 @@ var listTemplate = [
 
 mf.template = function (tpls) {
 
-    var doms = tpls;
+    var doms = tpls.slice(0);
     var toString = function () {
         return doms.join('').replace(/\s+/g, ' '); // 注意去除制表符等长空行
     };
