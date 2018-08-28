@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset=utf-8>
-<title>my-project</title>
-<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> -->
 
-<script src="../../lib/jquery-2.1.3.min.js" type="text/javascript" charset="utf-8" ></script>
-<script src="../../common/mf/mf-i18n.js" type="text/javascript" charset="utf-8" ></script>
-<script src="i18n.js" type="text/javascript" charset="utf-8" ></script>
-<link rel="stylesheet" href="common/common.css" type="text/css"></link>
-<link rel="stylesheet" href="common/list.css" type="text/css"></link>
+<head>
+    <meta charset=utf-8>
+    <title>my-project</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> -->
+
+    <script src="../../lib/jquery-2.1.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../lib/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../lib/i18n/jquery.i18n.properties-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../lib/jquery-browser.js" type="text/javascript"></script>
+    <script src="../../lib/jqGrid/jqGrid-3.5.3.min.js" type="text/javascript"></script>
+    <script src="../../lib/jqGrid/i18n/grid.locale-cn.js" type="text/javascript"></script>
+    <script src="../../common/mf/mf-common.js" type="text/javascript"></script>
+    <script src="../../common/mf/mf-i18n.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <script src="../../common/mf/mf-jqGrid.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../../lib/jqGrid/ui.jqgrid.css " type="text/css ">
+    </link>
+    <link rel="stylesheet" href="../../lib/jqGrid/jquery-ui-1.8.16.custom.css " type="text/css ">
+    </link>
+
+    <script src="i18n.js" type="text/javascript" charset="utf-8"></script>
+
+    <style>
+        #part1,
+        #part2,
+        #part3 {
+            border: 1px dashed #bbb;
+            padding: 8px;
+            margin: 24px 0;
+            width: 300px;
+
+        }
+    </style>
 
 </head>
+
 <body>
 
-<div id="app">
-    bbbb
-</div>
+    <div id="mainPage">
+        <section id="part1">
+            <h5 id="userTitle_label"></h5>
+            <p><span id="name_label" class="i18n-label-colon"></span><input type="input"></p>
+            <p><span id="age_label" class="i18n-label-colon"></span><input type="input"></p>
+        </section>
+
+        <section id="part2">
+            <h5 id="scoreTitle_label" class="i18n-label"></h5>
+            <p><span id="math_label" class="i18n-label i18n-label-colon"></span><input type="input"></p>
+            <p><span id="science_label" class="i18n-label i18n-label-colon"></span><input type="input"></p>
+            <button id="submit_label" class="i18n-label"></button>
+        </section>
+
+        <section id="part3">
+            <table id="gridTable"></table>
+        </section>
+    </div>
 </body>
+
 </html>

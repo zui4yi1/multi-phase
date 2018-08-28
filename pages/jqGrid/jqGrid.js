@@ -41,7 +41,6 @@ $(function () {
     mf.jqGrid.noPager({
         url: 'jqGridData.action',
         id: 'list3',
-        pagerId: 'pager3',
         colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
         colModel: [
             { name: 'id', index: 'id', width: 55 },
