@@ -28,11 +28,8 @@ $(function () {
         title: 'template',
         url: pageHeaderPath + 'template/template.html'
     }, {
-        title: 'echart',
-    //    url: pageHeaderPath + 'echart/echart.html'
-    }, {
-        title: 'date picker',
-    //    url: pageHeaderPath + 'datePicker/datePicker.html'
+        title: 'echarts',
+        url: pageHeaderPath + 'echarts/echarts.html'
     }];
 
     mf.bTabs.initTabs(menus);

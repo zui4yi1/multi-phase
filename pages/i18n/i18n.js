@@ -8,7 +8,7 @@ $(function () {
 
     mf.jqGrid.noPager({
         url: 'members.action',
-        colNames: mf.i18n.props('user', ['name', 'age']),
+        colNames: mf.i18n.props('user', ['name', 'age']), //一行代码搞定
         colModel: [
             { name: 'name', width: 100 },
             { name: 'age', width: 100 }
