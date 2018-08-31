@@ -4,7 +4,7 @@ var mf = mf || {};
  * 只取简单的几种图形：拆线（包括面积）、柱图、饼图（环、玫瑰），一共6个
  */
 mf.echarts = (function () {
-    // 需要的参数，均是id, x, y,data,legend, 五个参数，其中id非必须
+    // 需要的参数，均是id, x, y,seriesdata,legend,seriesOps, 6个参数，其中id非必须
     // 统一颜色、位置，边矩
     // TODO  多相需要解决这种，参数继承的覆盖的问题！
     // 以下所有的都是标准的图形
