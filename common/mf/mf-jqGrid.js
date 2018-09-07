@@ -136,9 +136,10 @@ mf.jqGrid = (function () {
     var noPager = function (options) {
         var ops = {
             noFillLines: true, //指定告诉render, 无翻页模式不需要填充10行            
-            pager: null,
+        //    pager: null, // 应于option中直接设置
             height: 'auto'
         };
+        options.pager = null; // 不可覆盖的属性需直接修改，不能于ops中配置
         return render($.extend(ops, options));
     };
 

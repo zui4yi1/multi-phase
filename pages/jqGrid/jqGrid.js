@@ -3,6 +3,7 @@ $(function () {
     // mf.jqGrid.multiSelect(colModel, colNames, ops1);
 
     // 但块状参数仍然封装成为一个option, 这样最方便
+    //  写稿子时，务必突出这一点，同一套数据，可以任意切换不同的展示
     mf.jqGrid.multiSelect({
         url: 'jqGridData.action',
         id: 'list1',
@@ -19,10 +20,6 @@ $(function () {
         ]
     });
 
-    $('#btn').click(function () {
-        var data = mf.jqGrid.getSelRowDatas('list1');
-        console.info(data);
-    });
     mf.jqGrid.singleSelect({
         url: 'jqGridData.action',
         id: 'list2',

@@ -39,7 +39,7 @@ mf.echarts = (function () {
 
 
         // 为echarts对象加载数据 
-        return myChart.setOption($.extend(defaultOps, option));
+        return myChart.setOption($.extend(true, defaultOps, option));
 
     };
 
@@ -60,10 +60,10 @@ mf.echarts = (function () {
 
         // 设置数据
         if (!(option._data instanceof Array)) { // 第一种对象{}形式
-            series.push($.extend(defaultSeriesOps, option._seriesOps, option._data));
+            series.push($.extend(true, defaultSeriesOps, option._seriesOps, option._data));
         } else { //是个数组
             if (option._data[0][0] === undefined) { // 第二种一维数组[]形式，即只有一条series
-                series.push($.extend(defaultSeriesOps, option._seriesOps, {
+                series.push($.extend(true, defaultSeriesOps, option._seriesOps, {
                     name: option._legend[0] || '',
                     data: option._data
                 }));
@@ -72,12 +72,12 @@ mf.echarts = (function () {
                 for (var i = 0; i < option._data.length; i++) {
                     // 区别数组或对象
                     if (option._data[i] instanceof Array) {
-                        series.push($.extend(defaultSeriesOps, option._seriesOps, {
+                        series.push($.extend(true, defaultSeriesOps, option._seriesOps, {
                             name: option._legend[i] || '',
                             data: option._data[i]
                         }));
                     } else {
-                        series.push($.extend(defaultSeriesOps, option._seriesOps, option._data[i]));
+                        series.push($.extend(true, defaultSeriesOps, option._seriesOps, option._data[i]));
                     }
                 }
             }
@@ -124,9 +124,9 @@ mf.echarts = (function () {
 
         // 暂时只有单饼图，多饼图的不扩展了，太复杂不便于作为介绍性的例子
         if (option._data[0].center && option._data[0].data) {
-            series.push($.extend(defaultSeriesOps, option._seriesOps, option._data)); // 注意继承顺序
+            series.push($.extend(true, defaultSeriesOps, option._seriesOps, option._data)); // 注意继承顺序
         } else {
-            series.push($.extend(defaultSeriesOps, { data: option._data }, option._seriesOps)); // 注意继承顺序
+            series.push($.extend(true, defaultSeriesOps, { data: option._data }, option._seriesOps)); // 注意继承顺序
         }
 
         return series;
@@ -145,7 +145,7 @@ mf.echarts = (function () {
         var ops = {
             series: setLineSeries('line', option)
         };
-        return render($.extend(ops, option));
+        return render($.extend(true, ops, option));
     };
 
     var area = function (option) {
@@ -154,13 +154,13 @@ mf.echarts = (function () {
                 normal: { areaStyle: 'default' }
             }
         };
-        return line($.extend({ _seriesOps: ops }, option)); // 注意ops 添加至_seriesOps之上
+        return line($.extend(true, { _seriesOps: ops }, option)); // 注意ops 深拷贝至option的_seriesOps属性之上
     };
     var bar = function (option) {
         var ops = {
             series: setLineSeries('bar', option)
         };
-        return render($.extend(ops, option));
+        return render($.extend(true, ops, option));
 
     };
     var pie = function (option) {
@@ -173,7 +173,7 @@ mf.echarts = (function () {
         // pie无坐标
         option._x = undefined;
         option._y = undefined;
-        return render($.extend(ops, option));
+        return render($.extend(true, ops, option));
     };
     var ring = function (option) {
         var ops = {
@@ -199,7 +199,7 @@ mf.echarts = (function () {
                 }
             },
         };
-        return pie($.extend({ _seriesOps: ops }, option)); // 注意ops 添加至_seriesOps之上
+        return pie($.extend(true, { _seriesOps: ops }, option)); // 注意ops 深拷贝至option的_seriesOps属性之上
     };
     var rose = function (option) {
         var ops = {
@@ -226,7 +226,7 @@ mf.echarts = (function () {
                 }
             },
         };
-        return pie($.extend({ _seriesOps: ops }, option)); // 注意ops 添加至_seriesOps之上
+        return pie($.extend(true, { _seriesOps: ops }, option)); // 注意ops 深拷贝至option的_seriesOps属性之上
     };
 
     return {
