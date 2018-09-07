@@ -14,6 +14,7 @@ $(function () {
     tpl2.replace(12, '<div>{{item.reason}}</div>');
     tpl2.replace(15, '<button v-if="item.status==\'03\'" v-on:click.stop="submitAply(item)">提交</button><button v-if="item.status==\'02\'" v-on:click.stop="cancelAply(item)">取消</button>');
 
+    // 直接用索引的方式arr[i]=''替换也是可以的
 
     new Vue({
         el: '#app',

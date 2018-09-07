@@ -2,19 +2,24 @@ var mf = mf || {};
 /**
  * mf-echarts对原插件echarts做了以下封装:
  * 只取简单的几种图形：拆线（包括面积）、柱图、饼图（环、玫瑰），一共6个
+ * 参数很多，主要的是series, 参数分为二块，全局的和series的属性
+ * 
+ * 必须定义风格，才成设置mf
  */
 mf.echarts = (function () {
+    // 非配置参数，共有id,xAxis,yAxis,legend, 以及series中的data
+    // 其中id可以默认，故非必传
+    // xAxis和yAxis是line和bar才需传，
     // 需要的参数，均是id, x, y,seriesdata,legend,seriesOps, 6个参数，其中id非必须
+
     // 统一颜色、位置，边矩
-    // TODO  多相需要解决这种，参数继承的覆盖的问题！
     // 以下所有的都是标准的图形
     var render = function (option) {
-        var myChart = echarts.init(document.getElementById(option.id || 'chartWrap'));
+        var myChart = echarts.init(document.getElementById(option._id || 'chartWrap'));
 
-        // 很容易冲突的属性，命名为_data?
         var defaultOps = {};
         if (option._legend) { //只有一个series时，legend不能点击
-            defaultOps.legend = option._legend instanceof Array ? { left: 30, top: 20, selectedMode: option.series.length > 1, data: option._legend.slice(0, option.series.length) } : option._legend;
+            defaultOps.legend = option._legend instanceof Array ? { left: 30, top: 0, selectedMode: option._legend.length > 1, data: option._legend } : $.extend({ selectedMode: false }, option._legend);
         }
 
         //若未设置type, 默认x轴的类型为category， y轴为value
@@ -22,9 +27,6 @@ mf.echarts = (function () {
             option.xAxis = option._x instanceof Array ? { type: 'category', data: option._x } : (option._x || { type: 'category' });
             option.yAxis = option._y instanceof Array ? { type: 'value', data: option._y } : (option._y || { type: 'value' });
         }
-        // 设置组件边矩，基本上填满容器。若不需要这么多，可以设置div的padding样式
-
-        // 设置line和bar的边矩, 默认只有x轴和y轴各一条，多条的和pie的在边矩在多相函数里面定义
         defaultOps.grid = {
             left: 30,
             top: 60, // 注意留legend的空间
@@ -40,7 +42,6 @@ mf.echarts = (function () {
         return myChart.setOption($.extend(defaultOps, option));
 
     };
-
 
     /**
      * 从_data中取值, _data的格式：每个sery可以数组或对象
@@ -59,24 +60,24 @@ mf.echarts = (function () {
 
         // 设置数据
         if (!(option._data instanceof Array)) { // 第一种对象{}形式
-            series.push($.extend(defaultSeriesOps, option._data, option));
+            series.push($.extend(defaultSeriesOps, option._seriesOps, option._data));
         } else { //是个数组
             if (option._data[0][0] === undefined) { // 第二种一维数组[]形式，即只有一条series
-                series.push($.extend(defaultSeriesOps, {
+                series.push($.extend(defaultSeriesOps, option._seriesOps, {
                     name: option._legend[0] || '',
                     data: option._data
-                }, option));
+                }));
 
             } else { // 第三种混合型
                 for (var i = 0; i < option._data.length; i++) {
                     // 区别数组或对象
                     if (option._data[i] instanceof Array) {
-                        series.push($.extend(defaultSeriesOps, {
+                        series.push($.extend(defaultSeriesOps, option._seriesOps, {
                             name: option._legend[i] || '',
                             data: option._data[i]
-                        },option));
+                        }));
                     } else {
-                        series.push($.extend(defaultSeriesOps, option._data[i],option));
+                        series.push($.extend(defaultSeriesOps, option._seriesOps, option._data[i]));
                     }
                 }
             }
@@ -85,11 +86,11 @@ mf.echarts = (function () {
     }
 
     /**
-     * 单饼图，
+     * 单饼图 和 线图不一样，后者是一组数据对应一个图例，前者是一个value对应一个
+     * 饼图的比较特殊，一个value就对应一个name, 本例中因为要显示labelLine，若data为[1,3444]数值则无法显示label
+     * 比较特殊，故定义_data的元素都必须是value,name的值对
      */
     function setPieSeries(option) {
-
-        // 标准pie 不需要name属性，同样legend也不需要, 因为单个饼肯定不需要，而若多个饼则肯定是分开的
 
         var series = [];
         if (!option._data) {
@@ -121,21 +122,24 @@ mf.echarts = (function () {
             //  labelLine: {}
         };
 
-        // _data: [{ value: 335, name: '直接访问' }, { value: 310, name: '邮件营销' }, { value: 234, name: '联盟广告' }, { value: 135, name: '视频广告' }, { value: 548, name: '搜索引擎' }]
-        // 或者对象格式
-        // 若是多饼图，则第一个对象元素，必定有center和data属性，故可依此判断
-
         // 暂时只有单饼图，多饼图的不扩展了，太复杂不便于作为介绍性的例子
-        // 想扩展的可以根据：第一个对象元素，必定有center和data属性，故可依此判断
         if (option._data[0].center && option._data[0].data) {
-            series.push($.extend(defaultSeriesOps, option._data));
+            series.push($.extend(defaultSeriesOps, option._seriesOps, option._data)); // 注意继承顺序
         } else {
-            series.push($.extend(defaultSeriesOps, { data: option._data }));
+            series.push($.extend(defaultSeriesOps, { data: option._data }, option._seriesOps)); // 注意继承顺序
         }
 
         return series;
     };
 
+    /**
+     * _id
+     * _x, _y
+     * _data: 一个series时可为[]或{}, 多个时[[],{}], 里面的series可以[]和{}混合
+     * _seriesOps
+     * _lengend
+     * 
+     */
     var line = function (option) {
         // 拼接series, 需要legend, data两个参数
         var ops = {
@@ -144,16 +148,15 @@ mf.echarts = (function () {
         return render($.extend(ops, option));
     };
 
-    //TODO area失效了
     var area = function (option) {
         var ops = {
             itemStyle: {
                 normal: { areaStyle: 'default' }
             }
         };
-        return line($.extend(ops, option));
+        return line($.extend({ _seriesOps: ops }, option)); // 注意ops 添加至_seriesOps之上
     };
-    var bar = function (option) { // 同向
+    var bar = function (option) {
         var ops = {
             series: setLineSeries('bar', option)
         };
@@ -161,7 +164,6 @@ mf.echarts = (function () {
 
     };
     var pie = function (option) {
-        // 去坐标而是出现坐标轴了
         var ops = {
             series: setPieSeries(option),
             grid: { // 设置边矩
@@ -197,7 +199,7 @@ mf.echarts = (function () {
                 }
             },
         };
-        return pie($.extend(ops, option));
+        return pie($.extend({ _seriesOps: ops }, option)); // 注意ops 添加至_seriesOps之上
     };
     var rose = function (option) {
         var ops = {
@@ -224,7 +226,7 @@ mf.echarts = (function () {
                 }
             },
         };
-        return pie($.extend(ops, option));
+        return pie($.extend({ _seriesOps: ops }, option)); // 注意ops 添加至_seriesOps之上
     };
 
     return {
