@@ -12,6 +12,11 @@ mf.echarts = (function () {
     // xAxis和yAxis是line和bar才需传，
     // 需要的参数，均是id, x, y,seriesdata,legend,seriesOps, 6个参数，其中id非必须
 
+    // TODO 还一个进一步的优化，所各配置项写在一个“配置对象”了。。。换项目时，直接改“配置对象”即可
+    // 即参数分为四类：数据、功能性配置、风格性配置、自定义配置。后两个可以单独抽出来做为一个对象，换项目时，
+    // 直接改这个即可
+    // “配置对象”可以在完成之后，再进行抽离，也可以一开始时就抽离出来了
+
     // 统一颜色、位置，边矩
     // 以下所有的都是标准的图形
     var render = function (option) {
@@ -24,7 +29,7 @@ mf.echarts = (function () {
 
         //若未设置type, 默认x轴的类型为category， y轴为value
         if (option._x || option._y) {
-            option.xAxis = option._x instanceof Array ? { type: 'category', data: option._x } : (option._x || { type: 'category' });
+            option.xAxis = option._x instanceof Array ? { type: 'category', data: option._x } : (option._x || { type: 'value' });
             option.yAxis = option._y instanceof Array ? { type: 'value', data: option._y } : (option._y || { type: 'value' });
         }
         defaultOps.grid = {
