@@ -12,10 +12,12 @@ mf.jqGrid = (function () {
     // 如果想要做更一步的深度多相，则把可变的非必须的配置也抽出来放在一个单独的对象内，如本例mf_conf
     // 这样迁移到另一个项目时，只要修改mf_conf内的配置，即可达到替换的目的。
     // 这对于简单的小组件倒是不必如此，对配置非常多的且添加的配置比较多的可以考虑如此操作！
+    // 深度多相可以在项目完成之后进行
+    // 不是叫深度多相，
     var mf_conf = {
         render_ops: {
             height: '240px', // 24px * 10
-            emptyrecords: 'no message!'
+            emptyrecords: 'no message is founed!'
         },
         pager_ops: {
             rowNum: 10,
@@ -64,8 +66,6 @@ mf.jqGrid = (function () {
             return ids;
         }
     };
-
-    //TODO edit模式
 
     /**
      * 所有基函数都定义为render.  若多相函数不满足的，可自行添加，或直接调用render但并不建议.

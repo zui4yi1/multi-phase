@@ -1,11 +1,22 @@
 $(function () {
 
-    mf.dialog.form('dialog1');
+    mf.dialog.form('dialog1', function (closeDialog) {
+        if (!confirm('是否提交')) {
+            return false;
+        }
+        var condition1 = {
+            id: '1000'
+        };
+        mf.ajax('user.action', condition1, function (data) {
+            closeDialog();
+        });
+    });
     mf.dialog.form_big('dialog2');
     mf.dialog.form_small('dialog3');
     mf.dialog.detail('dialog4');
     mf.dialog.detail_big('dialog5');
     mf.dialog.detail_small('dialog6');
+
     $('#d1').click(function () {
         $('#dialog1').dialog('open');
     });

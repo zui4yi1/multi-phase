@@ -7,7 +7,7 @@ var mf = mf || {};
  */
 mf.util = (function () {
     var jsonFileName = function (url) {
-        var jsonFileName = url;        
+        var jsonFileName = url;
         if (isTestMode()) {
             var strs = url.replace('.do', '').replace('.action', '').split('/');
             jsonFileName = strs.length > 1 ? strs[strs.length - 2] + '_' + strs[strs.length - 1] : strs[0];
@@ -16,7 +16,7 @@ mf.util = (function () {
         return jsonFileName;
     };
 
-    var isTestMode = function(){
+    var isTestMode = function () {
         return localStorage.testMode === '1';
 
     };
@@ -49,11 +49,11 @@ mf.htmlToObj = (function () {
         obj = obj.find(selector).append(html);
         return obj;
     };
-    var remove = function(selector){
+    var remove = function (selector) {
         obj = obj.fid(selector).remove();
         return obj;
     };
-    var toString = function(){
+    var toString = function () {
         return obj.get(0).outerHTML;
     };
     return {

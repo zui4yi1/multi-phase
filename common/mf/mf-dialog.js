@@ -33,18 +33,24 @@ mf.dialog = (function () {
                 text: "提交",
                 icon: "ui-icon-check",
                 click: function () {
-                    if (submitCallback instanceof Function)
-                        submitCallback();
-                    $(this).dialog("close");
+                    if (submitCallback instanceof Function) {
+                        submitCallback(function () {
+                            // 原则上关闭语句应写在submitCallback函数内，不过作为例子写在这了
+                            $('#'+id).dialog("close");
+                        });
+                    }
                 }
             },
             {
                 text: "保存",
                 icon: "ui-icon-arrowthickstop-1-s",
                 click: function () {
-                    if (saveCallback instanceof Function)
-                        saveCallback();
-                    $(this).dialog("close");
+                    if (saveCallback instanceof Function) {
+                        saveCallback(function () {
+                            // 原则上关闭语句写在submitCallback函数内，不过作为例子写在这了
+                            $('#'+id).dialog("close");
+                        });
+                    }
                 }
             },
             {
