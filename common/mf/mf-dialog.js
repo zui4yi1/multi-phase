@@ -9,6 +9,23 @@ mf.dialog = (function () {
     // 企业版的主要有两种，编辑窗口和详情窗口。前者需要有两个或三个按钮，提交、(保存)和取消；后者只需要一个关闭按钮
     // 同时窗口也区分大窗口，小窗口和正常窗口(默认)
     // 详情窗口与编辑窗口的主题风格也不一样
+
+    // 如果比较简单，是不建议分离出来的，因为这样一来，mf也变成一个组件了，个人还是推荐不同项目不同的多相
+    var mf_conf = {
+        render_ops: {
+            show: {
+                effect: "clip",
+                duration: 800,
+            },
+            hide: {
+                effect: "clip",
+                duration: 800,
+            },
+            height: 350,
+            width: 500,
+        }
+    };
+
     var render = function (id, options) {
         var defaultOps = {
             autoOpen: false,
@@ -24,6 +41,9 @@ mf.dialog = (function () {
             width: 500,
             modal: true
         };
+        // import mf conf
+        $.extend(defaultOps, mf_conf.render_ops);
+
         return $('#' + id).dialog($.extend(defaultOps, options));
     };
     //若saveCallback为空，则为2个按钮(提交、取消)，反之为三个按钮(提交、保存、取消)
@@ -34,11 +54,9 @@ mf.dialog = (function () {
                 icon: "ui-icon-check",
                 click: function () {
                     if (submitCallback instanceof Function) {
-                        submitCallback(function () {
-                            // 原则上关闭语句应写在submitCallback函数内，不过作为例子写在这了
-                            $('#'+id).dialog("close");
-                        });
+                        submitCallback();
                     }
+                    close(id); // 实际关闭dialog时此处应删除，而在上面的回调函数里进行关闭
                 }
             },
             {
@@ -46,18 +64,16 @@ mf.dialog = (function () {
                 icon: "ui-icon-arrowthickstop-1-s",
                 click: function () {
                     if (saveCallback instanceof Function) {
-                        saveCallback(function () {
-                            // 原则上关闭语句写在submitCallback函数内，不过作为例子写在这了
-                            $('#'+id).dialog("close");
-                        });
+                        saveCallback();
                     }
+                    close(id); // 实际关闭dialog时此处应删除，而在上面的回调函数里进行关闭
                 }
             },
             {
                 text: "取消",
                 icon: "ui-icon-close",
                 click: function () {
-                    $(this).dialog("close");
+                    close(id);
                 }
             }
         ];
@@ -119,8 +135,12 @@ mf.dialog = (function () {
         };
         return detail(id, $.extend(ops, options));
     }
+    var close = function (id) {
+        $('#' + id).dialog("close");
+    };
     return {
         render: render,
+        close: close,
 
         form: form,
         form_big: form_big,

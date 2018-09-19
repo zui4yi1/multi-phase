@@ -1,6 +1,6 @@
 $(function () {
 
-    mf.dialog.form('dialog1', function (closeDialog) {
+    mf.dialog.form('dialog1', function () {
         if (!confirm('是否提交')) {
             return false;
         }
@@ -8,7 +8,7 @@ $(function () {
             id: '1000'
         };
         mf.ajax('user.action', condition1, function (data) {
-            closeDialog();
+            console.info(data);
         });
     });
     mf.dialog.form_big('dialog2');
