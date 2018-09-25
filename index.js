@@ -11,7 +11,7 @@ $(function () {
         url: pageHeaderPath + 'ajax/ajax.html'
     }, {
         title: 'jqGrid',
-           url: pageHeaderPath + 'jqGrid/jqGrid.html'
+        url: pageHeaderPath + 'jqGrid/jqGrid.html'
     }, {
         title: 'modal dialog',
         url: pageHeaderPath + 'dialog/dialog.html'

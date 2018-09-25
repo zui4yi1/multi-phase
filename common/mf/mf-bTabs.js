@@ -7,6 +7,7 @@ var mf = mf || {};
  * b. 支持动态添加菜单(不暴露)
  * c. 支持添加一个指定doms的tabs，而非必须url
  * d. 支持添加无url的菜单项，不可点击并置灰
+ * e. 添加当前选中菜单的样式
  * 原插件地址: http://www.jq22.com/jquery-info15053
  */
 mf.bTabs = (function () {
@@ -46,6 +47,11 @@ mf.bTabs = (function () {
         $('a', $('#menuSideBar')).on('click', function (e) {
             e.stopPropagation();
             var li = $(this).closest('li');
+
+            // 添加点击菜单后的选中样式
+            li.parent().find('li.selected').removeClass('selected');
+            li.addClass('selected');
+
             var menuId = $(li).attr('mid');
             var url = $(li).attr('funurl');
             var title = $(this).text();

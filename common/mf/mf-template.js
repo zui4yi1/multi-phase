@@ -10,6 +10,7 @@ var mf = mf || {};
  */
 
 // 第5，8，12，15行可替换。若有增、删，需在替换结束后，由后至前，进行操作，确保索引不混乱
+// 类似于slot
 var listTemplate = [
     '<div class="listWrap">',
     '   <div class="itemList" v-for="(item, inx) in items">',
