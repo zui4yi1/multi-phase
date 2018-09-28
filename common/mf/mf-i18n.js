@@ -5,6 +5,8 @@ var mf = mf || {};
  */
 mf.i18n = (function () {
 
+    $.cookie('language','cn') // set language
+    
     var loadResource = function (sourceName, callback) {
         $.i18n.properties({
             name: sourceName,
