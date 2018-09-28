@@ -8,22 +8,24 @@
     <script src="../../lib/vue.min.js" type="text/javascript"></script>
     <script src="../../common/mf/mf-common.js" type="text/javascript"></script>
     <script src="../../common/mf/mf-ajax.js" type="text/javascript"></script>
-    <script src="../../common/mf/mf-template.js" type="text/javascript"></script>
     <script src="template.js" type="text/javascript"></script>
     <style>
         .listWrap {
             width: 200px;
             height: auto;
         }
+
         .itemList {
             margin: 12px 0;
         }
+
         .itemWrap {
             background-color: #ddd;
             border: 2px solid #ddd;
             border-right-color: #999;
             padding: 8px 8px 0 8px;
         }
+
         .item-header {
             display: flex;
             display: -webkit-flex;
@@ -32,15 +34,19 @@
             border-bottom: 1px solid #bbb;
             padding-bottom: 4px;
         }
+
         .item-body {
             padding: 12px 0;
         }
-        .item-footer{
+
+        .item-footer {
             padding-bottom: 4px;
         }
+
         .header-left {
             flex: 2;
         }
+
         .header-right {
             flex: 1;
             text-align: right;
@@ -50,9 +56,22 @@
 
 <body>
     <div id="app">
-        <holiday-list :items="items"></holiday-list>
+        <holiday-list :items="items">
+            <template slot="headLeft" scope="scope">
+                <span>{{scope.item.aplyDate}}</span>
+            </template>
+            <template slot="headRight" scope="scope">
+                <span>{{scope.item.statusNm}}</span>
+            </template>
+            <template slot="itemBody" scope="scope">
+                <span>{{scope.item.reason}}</span>
+            </template>
+            <template slot="itemFooter" scope="scope">
+                <button v-if="scope.item.status=='03' " v-on:click.stop="submitAply(scope.item)">提交</button>
+                <button v-if="scope.item.status=='02' " v-on:click.stop="cancelAply(scope.item)">取消</button>
+            </template>
+        </holiday-list>
     </div>
-    
 </body>
 
 </html>
