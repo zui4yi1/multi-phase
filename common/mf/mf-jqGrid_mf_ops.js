@@ -109,7 +109,7 @@ mf.jqGrid = (function () {
             }
             //mf_extend: 填充行, 斑马色
             // 注意为了严谨起见，对于函数，调用前先验证存在，做到即使删除了mf_conf也不会报错
-            if (mf_conf && mf_conf.beforeSelectRow_extend instanceof Function) {
+            if (mf_conf && mf_conf.gridComplete_extend instanceof Function) {
                 mf_conf.gridComplete_extend(options, table);
             }
         };
