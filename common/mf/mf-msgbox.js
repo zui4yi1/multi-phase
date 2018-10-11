@@ -54,6 +54,8 @@ mf.msgbox = (function () {
                 {
                     caption: 'close',
                     callback: function () {
+                        if (callback instanceof Function)
+                            callback();
                         return true;
                     }
                 }
