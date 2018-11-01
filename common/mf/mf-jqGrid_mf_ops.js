@@ -67,6 +67,10 @@ mf.jqGrid = (function () {
         }
     };
 
+    // 若有多套render, 可由这种简单的方法动态指定某个render
+    // 不过一般不会出现，所以也为了代码的可读性也尽量避免这样写
+    var RENDER_FUNC = 'render';
+
     /**
      * 所有基函数都定义为render.  若多相函数不满足的，可自行添加，或直接调用render但并不建议.
      */
@@ -113,7 +117,7 @@ mf.jqGrid = (function () {
                 mf_conf.gridComplete_extend(options, table);
             }
         };
-        
+
         defaultOps.beforeSelectRow = function (rowId) {
             //mf_extend: 解决填充行后的点击问题
             if (mf_conf && mf_conf.beforeSelectRow_extend instanceof Function) {
@@ -142,7 +146,11 @@ mf.jqGrid = (function () {
             }
 
         }
-        return render($.extend(ops, options));
+
+        // 若有多套render, 且自由切换，则可由这种简单的方法动态指定某个render, 
+        // 此时所有的函数都这样写，这样只要修改RENDER_FUNC即可实现指定切换
+        // 不过一般不会出现，所以也为了代码的可读性也尽量避免这样写
+        return this[RENDER_FUNC]($.extend(ops, options));
     };
 
     /**
