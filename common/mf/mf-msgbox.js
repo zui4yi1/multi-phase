@@ -100,10 +100,10 @@ mf.msgbox = (function () {
         return new $.Zebra_Dialog(content, $.extend({
             title: '提示',
             type: 'question',
+            overlay_opacity: 0.6,
             buttons: [
                 {
-                    caption: '确定',
-                    overlay_opacity: 0.5,
+                    caption: '确定',                    
                     callback: function () {
                         if (callback instanceof Function)
                             callback();
