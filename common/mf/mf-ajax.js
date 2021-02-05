@@ -7,6 +7,7 @@ var mf = mf || {};
 mf.ajax = function (url, data, succ) {
 
     var testMode = localStorage.testMode === '1' ? true : false;
+    testMode = true // 测试默认启用
 
     // 测试模式，读取本地json文件，里面包含接口的测试数据
     if (testMode) {
@@ -24,7 +25,7 @@ mf.ajax = function (url, data, succ) {
                 }
             },
             error: function (e) {
-                alert('common/testData/' + jsonFileName + '.json文件，或者json文件的数据格式不正确');
+                alert('服务未启动，或找不到common/testData/' + jsonFileName + '.json文件，或者json文件的数据格式不正确');
             }
         });
         return;
