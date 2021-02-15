@@ -18,7 +18,7 @@ mf.ajax = function (url, data, succ) {
             url: '../../common/testData/' + jsonFileName + '.json', //包含测试数据的json文件
             type: 'GET',
             dataType: 'json',
-            data: data,
+            // data: data,
             success: function (data) {
                 if (succ instanceof Function) {
                     succ(data);

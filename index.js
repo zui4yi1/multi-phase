@@ -20,7 +20,7 @@ $(function () {
         url: pageHeaderPath + 'msgbox/msgbox.html'
     }, {
         title: 'i18n',
-        url: pageHeaderPath + 'i18n/i18n.html'
+        // url: pageHeaderPath + 'i18n/i18n.html'
     }, {
         title: 'md5',
         url: pageHeaderPath + 'md5/md5.html'
@@ -34,6 +34,7 @@ $(function () {
 
     mf.bTabs.initTabs(menus);
     mf.bTabs.addTab('frontTab', '首页', '', $('#frontPage').children());
+    localStorage.testMode = '1'
 });
 
 

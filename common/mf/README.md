@@ -1,5 +1,3 @@
-
-各例子各占一个文件，以便阅读
-
-实际开发时，只要一个或数个js文件即可。各多相文件可以先独立出来编写，待完善时，再合一起。
-实际开发时，为避免重名，最好添加命名空间，如mf.bTabs.initTabs(); 
+1. 直接打开index.html是无服务模式，部分例子的数据不能获取
+2. 若有安装node, 建议运行node server.js，然后浏览器输入http://localhost:8080/即可
+（需要提前修改本地目录的地址let wwwUrl = 'C:/Users/Sea/Desktop/study/multi-phase';）
